@@ -21,13 +21,13 @@ $ systemctl start caddy
 $ systemctl status caddy
 ```
 
-then to create the service
+Create binary:
 ```
 cd /root/
 git clone https://github.com/maxisme/grafana-notifi
-go build . -o /usr/local/bin/grafana-notifi
+go build -o /usr/local/bin/grafana-notifi .
 ```
-then to start the service
+Create socket service
 ```
 $ cp grafananotifi.service /etc/systemd/system/
 $ cp grafananotifi.socket /etc/systemd/system/
@@ -37,4 +37,5 @@ $ systemctl daemon-reload
 $ systemctl enable grafananotifi.socket
 $ systemctl start grafananotifi.socket
 $ systemctl status grafananotifi.socket
+$ curl http://127.0.0.1:8083
 ```
