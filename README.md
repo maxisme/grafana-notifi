@@ -12,7 +12,7 @@ $ useradd --system \
   	--comment "Caddy web server" \
   	caddy
 ```
-Then move `caddy.service` to `/etc/systemd/system/caddy.service`:
+Then move [`caddy.service`](https://github.com/caddyserver/dist/blob/master/init/caddy.service) to `/etc/systemd/system/caddy.service`:
 ```
 $ cp caddy.service /etc/systemd/system/caddy.service
 $ systemctl daemon-reload
