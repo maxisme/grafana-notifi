@@ -1,0 +1,14 @@
+[Unit]
+Description=Grafana notifi proxy
+Requires=network.target
+After=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/grafana-notifi/
+ExecStart=/usr/local/bin/grafana-notifi
+ExecReload=/bin/kill -SIGINT $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
