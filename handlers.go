@@ -54,8 +54,8 @@ func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 
 	// post to notifi
 	notifiArgs := fmt.Sprintf("credentials=%s&title=%s&description=%s&link=%s&image=%s", credentials[0], g.RuleName, g.Message, g.RuleURL, g.ImageURL)
+	notifiArgs = url.QueryEscape(notifiArgs)
 	notifiURL := fmt.Sprintf("%s?%s", notifiURL, notifiArgs)
-	notifiURL = url.QueryEscape(notifiURL)
 	log.Println(notifiURL)
 
 	client := http.Client{
