@@ -47,7 +47,7 @@ func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&g)
 	if err != nil {
 		log.Println("error decoding body")
-		http.Error(w, "json error: "+err.Error(), http.StatusBadRequest)
+		http.Error(w, "json error: "+err.Error(), http.StatusNotAcceptable)
 		return
 	}
 
