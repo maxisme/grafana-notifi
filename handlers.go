@@ -36,6 +36,8 @@ type GrafanaHookBody struct {
 func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 	var g GrafanaHookBody
 
+	log.SetOutput(f)
+	
 	credentials, ok := r.URL.Query()["credentials"]
 	if !ok {
 		http.Error(w, "No credentials", http.StatusBadRequest)
