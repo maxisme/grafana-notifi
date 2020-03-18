@@ -36,9 +36,6 @@ type GrafanaHookBody struct {
 func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 	var g GrafanaHookBody
 
-	http.Error(w, "json error: ", http.StatusNotAcceptable)
-	return
-
 	log.SetOutput(f)
 
 	credentials, ok := r.URL.Query()["credentials"]
