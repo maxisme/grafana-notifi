@@ -37,7 +37,7 @@ func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 	var g GrafanaHookBody
 
 	log.SetOutput(f)
-	
+
 	credentials, ok := r.URL.Query()["credentials"]
 	if !ok {
 		http.Error(w, "No credentials", http.StatusBadRequest)
@@ -47,7 +47,7 @@ func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&g)
 	if err != nil {
 		log.Println("error decoding body")
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, "json error: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
