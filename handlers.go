@@ -39,8 +39,10 @@ func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "No credentials", http.StatusBadRequest)
 		return
 	}
+
 	err := json.NewDecoder(r.Body).Decode(&g)
 	if err != nil {
+		fmt.Println("error decoding body")
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -49,9 +51,11 @@ func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 	client := http.Client{
 		Timeout: 1 * time.Second,
 	}
-	_, err = client.Get(fmt.Sprintf("%s?credentials=%s&title=%s&description=%s&link=%s&image=%s", notifiURL, credentials, g.RuleName, g.Message, g.RuleURL, g.ImageURL))
+	url := fmt.Sprintf("%s?credentials=%s&title=%s&description=%s&link=%s&image=%s", notifiURL, credentials, g.RuleName, g.Message, g.RuleURL, g.ImageURL)
+	_, err = client.Get(url)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		fmt.Println("error sending: " + url)
+		http.Error(w, "notifi error: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 }
