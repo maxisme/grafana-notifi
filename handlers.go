@@ -53,7 +53,7 @@ func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// post to notifi
-	notifiArgs := fmt.Sprintf("credentials=%s&title=%s&description=%s&link=%s&image=%s", credentials[0], g.RuleName, g.Message, g.RuleURL, g.ImageURL)
+	notifiArgs := fmt.Sprintf("credentials=%s&title=%s&message=%s&link=%s&image=%s", credentials[0], g.RuleName, g.Message, g.RuleURL, g.ImageURL)
 	notifiArgs = strings.Replace(notifiArgs, " ", "%20", -1)
 	notifiURL := fmt.Sprintf("%s?%s", notifiURL, notifiArgs)
 	log.Println(notifiURL)
