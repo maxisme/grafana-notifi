@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 )
@@ -42,7 +43,7 @@ func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&g)
 	if err != nil {
-		fmt.Println("error decoding body")
+		log.Println("error decoding body")
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -54,7 +55,7 @@ func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 	url := fmt.Sprintf("%s?credentials=%s&title=%s&description=%s&link=%s&image=%s", notifiURL, credentials, g.RuleName, g.Message, g.RuleURL, g.ImageURL)
 	_, err = client.Get(url)
 	if err != nil {
-		fmt.Println("error sending: " + url)
+		log.Println("error sending: " + url)
 		http.Error(w, "notifi error: "+err.Error(), http.StatusBadRequest)
 		return
 	}
