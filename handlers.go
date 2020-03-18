@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -52,13 +53,14 @@ func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// post to notifi
-	url := fmt.Sprintf("%s?credentials=%s&title=%s&description=%s&link=%s&image=%s", notifiURL, credentials, g.RuleName, g.Message, g.RuleURL, g.ImageURL)
-	log.Println(url)
+	notifiURL := fmt.Sprintf("%s?credentials=%s&title=%s&description=%s&link=%s&image=%s", notifiURL, credentials[0], g.RuleName, g.Message, g.RuleURL, g.ImageURL)
+	notifiURL = url.QueryEscape(notifiURL)
+	log.Println(notifiURL)
 
 	client := http.Client{
 		Timeout: 1 * time.Second,
 	}
-	resp, err := client.Get(url)
+	resp, err := client.Get(notifiURL)
 	defer resp.Body.Close()
 	if err != nil {
 		http.Error(w, "get error: "+err.Error(), http.StatusBadRequest)
