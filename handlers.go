@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
@@ -49,14 +50,23 @@ func ApiProxyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// post to notifi
+	url := fmt.Sprintf("%s?credentials=%s&title=%s&description=%s&link=%s&image=%s", notifiURL, credentials, g.RuleName, g.Message, g.RuleURL, g.ImageURL)
+	log.Println(url)
+
 	client := http.Client{
 		Timeout: 1 * time.Second,
 	}
-	url := fmt.Sprintf("%s?credentials=%s&title=%s&description=%s&link=%s&image=%s", notifiURL, credentials, g.RuleName, g.Message, g.RuleURL, g.ImageURL)
-	_, err = client.Get(url)
+	resp, err := client.Get(url)
+	defer resp.Body.Close()
 	if err != nil {
-		log.Println("error sending: " + url)
-		http.Error(w, "notifi error: "+err.Error(), http.StatusBadRequest)
+		http.Error(w, "get error: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if resp.StatusCode != 200 {
+		log.Println(body)
+		http.Error(w, string(body), http.StatusBadRequest)
 		return
 	}
 }
